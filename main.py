@@ -68,14 +68,18 @@ class Game:
                 player_turn = False
                 if self.guess == self.answer:
                     self.topframe.game_button.configure(text='correct')
+                    self.topframe.score += 10
+                    self.topframe.score_label.configure(text=f'Score: {self.topframe.score}')
                     window.update_idletasks()
                     window.after(1000)
                     self.topframe.game_button.configure(text='Playing!')
                     computer_turn = True
                     self.pick_buttons()
                 else:
+                    self.topframe.score = 0
                     self.topframe.game_button.configure(text='Wrong!')
                     window.update_idletasks()
+                    self.topframe.score_label.configure(text=f'Score: {self.topframe.score}')
                     window.after(1000)
                     self.topframe.game_button.configure(text='New Game')
                     self.guess = []
