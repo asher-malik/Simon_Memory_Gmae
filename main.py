@@ -5,17 +5,20 @@ import random
 window = ttk.Window()
 window.geometry('620x620')
 window.resizable(False, False)
+window.title('Memory Game')
 
 
 global computer_turn, player_turn
 computer_turn = False
 player_turn = False
 
+#Set Constant Colors
 VERY_LIGHT_GREEN = '#4edc92'
 VERY_LIGHT_ORANGE = "#ffe18d"
 VERY_LIGHT_RED = "#ffb9b6"
 VERY_LIGHT_GREY = "#d2d8e0"
 
+'''Set the style and colors for the buttons'''
 style = ttk.Style()
 style.configure('ButtonFrame.TFrame', background='black')
 style.configure('Custom.TButton', font=('Open Sans', 16, 'bold'))
@@ -52,6 +55,7 @@ class Game:
         self.guess = []
 
     def pressed_game_button(self):
+        '''Start the game'''
         global computer_turn
         if self.topframe.game_button.cget('text') != 'Playing!' or self.topframe.game_button.cget('text') != 'correct' or self.topframe.game_button.cget('text') != 'Wrong!':
             self.topframe.game_button.configure(text='Playing!')
@@ -60,6 +64,7 @@ class Game:
             self.pick_buttons()
 
     def button_click(self, num):
+        '''Know which button the player clicked'''
         global player_turn, computer_turn
         if player_turn:
             self.guess.append(num)
@@ -87,6 +92,7 @@ class Game:
                     self.extra_pick = 0
 
     def number_pick(self, index, delay):
+        '''Change the color of the button when pressed'''
         if computer_turn:
             if index == 0:
                 style.configure('First.TButton', background=VERY_LIGHT_GREEN)
@@ -118,6 +124,7 @@ class Game:
                 window.update_idletasks()
 
     def pick_buttons(self):
+        '''Pick new buttons to remember'''
         global player_turn, computer_turn
         if self.bottomframe.difficulty_var.get() == 'easy':
             for _ in range(1+self.extra_pick):
@@ -145,6 +152,7 @@ class Game:
 
 class ButtonGame(ttk.Frame):
     def __init__(self, parent):
+        '''Creating the buttons'''
         super(ButtonGame, self).__init__(master=parent, style='ButtonFrame.TFrame')
         self.columnconfigure((0, 1), uniform='a', weight=1)
         self.rowconfigure((0, 1), uniform='b', weight=1)
@@ -166,6 +174,7 @@ class ButtonGame(ttk.Frame):
 
 class TopFrame(ttk.Frame):
     def __init__(self, parent):
+        '''Creating the New game button and the score label'''
         super(TopFrame, self).__init__(master=parent)
 
         self.score = 0
@@ -183,6 +192,7 @@ class TopFrame(ttk.Frame):
 
 class BottomFrame(ttk.Frame):
     def __init__(self, parent):
+        '''The bottom frame class is where we set the difficulty of the game'''
         super(BottomFrame, self).__init__(master=parent)
         self.difficulty_var = ttk.StringVar(value='medium')
 
